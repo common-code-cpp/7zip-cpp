@@ -70,7 +70,8 @@ namespace intl
 			const StringValue* it = DerivedDef::Strings;
 			for (; it->string != NULL; ++it )
 			{
-				if ( string.Compare( it->string ) == 0 )
+				//if ( string.Compare( it->string ) == 0 )
+				if (strcmp(string.c_str(), it->string.c_str()) == 0)
 				{
 					return it->value;
 				}
