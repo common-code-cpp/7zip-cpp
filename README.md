@@ -173,6 +173,12 @@ unzip demo:
 
 #pragma comment(lib, "C:\\workspace\\third_code\\7zip-cpp\\build\\Debug\\7zpp.lib")
 
+#ifdef _UNICODE
+#define cout std::wcout
+#else
+#define cout std::cout
+#endif
+
 class UnzipCallback : public SevenZip::ProgressCallback {
 public:
 	UnzipCallback() {
@@ -182,14 +188,14 @@ public:
 	Called at beginning
 	*/
 	virtual void OnStartWithTotal(const SevenZip::TString& archivePath, unsigned __int64 totalBytes) override {
-		std::cout << __FUNCTION__ << archivePath.c_str() << ", totalBytes:" << totalBytes << std::endl;
+		cout << __FUNCTION__ << archivePath.c_str() << ", totalBytes:" << totalBytes << std::endl;
 	}
 
 	/*
 	Called Whenever progress has updated with a bytes complete
 	*/
 	virtual void OnProgress(const SevenZip::TString& archivePath, unsigned __int64 bytesCompleted) override {
-		std::cout << __FUNCTION__ << archivePath.c_str() << ", bytesCompleted:" << bytesCompleted << std::endl;
+		cout << __FUNCTION__ << archivePath.c_str() << ", bytesCompleted:" << bytesCompleted << std::endl;
 	}
 
 
@@ -197,21 +203,21 @@ public:
 	Called When progress has reached 100%
 	*/
 	virtual void OnDone(const SevenZip::TString& archivePath) override {
-		std::cout << __FUNCTION__ << archivePath.c_str() << std::endl;
+		cout << __FUNCTION__ << archivePath.c_str() << std::endl;
 	}
 
 	/*
 	Called When single file progress has reached 100%, returns the filepath that completed
 	*/
 	virtual void OnFileDone(const SevenZip::TString& archivePath, const SevenZip::TString& filePath, unsigned __int64 bytesCompleted) override {
-		std::cout << __FUNCTION__ << archivePath.c_str() << ", filePath:" << filePath.c_str() << ", bytesCompleted:" << bytesCompleted << std::endl;
+		cout << __FUNCTION__ << archivePath.c_str() << ", filePath:" << filePath.c_str() << ", bytesCompleted:" << bytesCompleted << std::endl;
 	}
 
 	/*
 	Called to determine if it's time to abort the zip operation. Return true to abort the current operation.
 	*/
 	virtual bool OnCheckBreak() override {
-		std::cout << __FUNCTION__ << std::endl;
+		cout << __FUNCTION__ << std::endl;
 		return false;
 	}
 };
@@ -232,12 +238,6 @@ int main()
 
     extractor->ExtractArchive(L"C:\\workspace\\", extractcallbackfunc);
 
-#if 0
-	while (1) {
-		Sleep(10000);
-	}
-#endif
-
-    std::cout << "Hello World!\n";
+    cout << "Hello World!\n";
 }
 ```
