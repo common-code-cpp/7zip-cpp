@@ -160,3 +160,100 @@ Read Contributing.md
 - Devel-XXX branches are current topics.
 - Master branch is the latest stable version.
 - More branch information is in Contributing.md.
+
+
+unzip demo:
+```plain
+// Unzip.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
+//
+
+#include <iostream>
+
+#include <7zpp/7zpp.h>
+#include <7zpp/ProgressCallback.h>
+
+class ZipProgressCallback : public SevenZip::ProgressCallback {
+public:
+
+	/*
+	Called at beginning
+	*/
+	void OnStartWithTotal(const SevenZip::TString& archivePath, unsigned __int64 totalBytes) override {
+		m_totalBytes = totalBytes;
+		std::wcout << __FUNCTION__ << " archivePath:" << archivePath.c_str() << ", totalBytes:" << totalBytes << std::endl;
+	}
+
+	/*
+	Called Whenever progress has updated with a bytes complete
+	*/
+	void OnProgress(const SevenZip::TString& archivePath, unsigned __int64 bytesCompleted) override {
+		m_bytesCompleted += bytesCompleted;
+		std::wcout << __FUNCTION__ << "," << (m_bytesCompleted * 100) / m_totalBytes << "%" << ",bytesCompleted:" << bytesCompleted << ",archivePath:" << archivePath.c_str() << ", bytesCompleted:" << bytesCompleted << std::endl;
+	}
+
+	/*
+	Called When progress has reached 100%
+	*/
+	void OnDone(const SevenZip::TString& archivePath) override {
+		std::wcout << __FUNCTION__ << " archivePath:" << archivePath.c_str() << std::endl;
+	}
+
+	/*
+	Called When single file progress has reached 100%, returns the filepath that completed
+	*/
+	void OnFileDone(const SevenZip::TString& archivePath, const SevenZip::TString& filePath, unsigned __int64 bytesCompleted) override {
+		std::wcout << __FUNCTION__ << ",archivePath:" << archivePath.c_str() << ",filePath:" << filePath.c_str() << ", bytesCompleted:" << bytesCompleted << std::endl;
+	}
+
+	/*
+	Called to determine if it's time to abort the zip operation. Return true to abort the current operation.
+	*/
+	bool OnCheckBreak() override {
+		std::wcout << __FUNCTION__ << std::endl;
+		return false;
+	}
+
+private:
+	unsigned __int64 m_totalBytes = 0;
+	unsigned __int64 m_bytesCompleted = 0;
+};
+
+int main()
+{
+	try {
+		SevenZip::SevenZipLibrary* lib = CreateSevenZipLibrary();
+		if (!lib) {
+			std::wcout << "loadCreateSevenZipLibrary failed!!!!!" << std::endl;
+			return -1;
+		}
+
+		if (!lib->Load(L"C:\\Program Files\\7-Zip\\7z.dll")) {
+			std::wcout << "load 7z.dll failed!!!!!" << std::endl;
+			return -1;
+		}
+
+		SevenZip::TString file = L"C:\\Users\\qwerr\\Desktop\\bin103.bin.7z";
+		SevenZip::SevenZipExtractor* extractor = CreateSevenZipExtractor(*lib, file);
+		std::wcout << file.c_str() << std::endl;
+		if (!extractor) {
+			std::wcout << "CreateSevenZipExtractor failed!!!!!" << std::endl;
+			return -1;
+		}
+		// Try to detect compression type
+		//if (!extractor->DetectCompressionFormat())
+		{
+			extractor->SetCompressionFormat(SevenZip::CompressionFormat::SevenZip);
+		}
+
+		// Change this function to suit
+		SevenZip::ProgressCallback* extractcallbackfunc = new ZipProgressCallback();
+		extractor->ExtractArchive(L"C:\\log\\test\\", extractcallbackfunc);
+	}
+	catch (SevenZip::SevenZipException& ex)
+	{
+		std::wcout << "ex:" << ex.GetMessageW().c_str() << std::endl;
+	}
+
+    std::wcout << "Finished!\n";
+}
+```
