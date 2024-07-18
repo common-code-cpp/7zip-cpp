@@ -27,7 +27,7 @@ extern "C"
 	EXPORT_7ZPP_API void DestroySevenZipLibrary(SevenZip::SevenZipLibrary*);
 
 	EXPORT_7ZPP_API SevenZip::SevenZipExtractor* CreateSevenZipExtractor(const SevenZip::SevenZipLibrary& library, const SevenZip::TString& archivePath);
-	EXPORT_7ZPP_API void DestroyCreateSevenZipExtractor(SevenZip::SevenZipExtractor*);
+	EXPORT_7ZPP_API void DestroySevenZipExtractor(SevenZip::SevenZipExtractor*);
 #ifdef __cplusplus
 }
 #endif // __cplusplus

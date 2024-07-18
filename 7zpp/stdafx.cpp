@@ -23,7 +23,7 @@ SevenZip::SevenZipExtractor* CreateSevenZipExtractor(const SevenZip::SevenZipLib
 	return new SevenZip::SevenZipExtractor(library, archivePath);
 }
 
-void DestroyCreateSevenZipExtractor(SevenZip::SevenZipExtractor* pSevenZipExtractor) {
+void DestroySevenZipExtractor(SevenZip::SevenZipExtractor* pSevenZipExtractor) {
 	if (pSevenZipExtractor) {
 		delete pSevenZipExtractor;
 		pSevenZipExtractor = NULL;
