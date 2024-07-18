@@ -168,7 +168,7 @@ unzip demo:
 //
 
 #include <iostream>
-
+#include <numeric>
 #include <7zpp/7zpp.h>
 #include <7zpp/ProgressCallback.h>
 
@@ -239,15 +239,24 @@ int main()
 			std::wcout << "CreateSevenZipExtractor failed!!!!!" << std::endl;
 			return -1;
 		}
+
 		// Try to detect compression type
 		//if (!extractor->DetectCompressionFormat())
 		{
 			extractor->SetCompressionFormat(SevenZip::CompressionFormat::SevenZip);
 		}
 
+		std::vector<size_t> sizes = extractor->GetOrigSizes();
+		std::wcout << "accumulate size:" << std::accumulate(sizes.begin(), sizes.end(), 0) << std::endl;
+
 		// Change this function to suit
 		SevenZip::ProgressCallback* extractcallbackfunc = new ZipProgressCallback();
 		extractor->ExtractArchive(L"C:\\log\\test\\", extractcallbackfunc);
+
+		DestroySevenZipExtractor(extractor);
+		lib->Free();
+		DestroySevenZipLibrary(lib);
+		delete extractcallbackfunc;
 	}
 	catch (SevenZip::SevenZipException& ex)
 	{
