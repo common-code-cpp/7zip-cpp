@@ -162,6 +162,11 @@ Read Contributing.md
 - More branch information is in Contributing.md.
 
 
+
+静态库修改：
+字符集：使用unicode字符集
+运行库：MTD/MT
+
 unzip demo:
 ```plain
 // Unzip.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
