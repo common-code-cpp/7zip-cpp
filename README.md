@@ -161,6 +161,20 @@ Read Contributing.md
 - Master branch is the latest stable version.
 - More branch information is in Contributing.md.
 
+```plain 
+git clone git@github.com:common-code-cpp/7zip-cpp.git --recursive
+
+cd  7zip-cpp
+cd build
+cmake -G "Visual Studio 17 2022" -A x64 ../
+cmake --build ../build --config Debug
+cmake --build ../build --config Release
+
+
+cmake -G "Visual Studio 17 2022" -A ARM64 ../
+cmake --build ../build --config Debug
+cmake --build ../build --config Release
+```
 
 
 静态库修改：
