@@ -36,5 +36,10 @@ namespace SevenZip
 		Called to determine if it's time to abort the zip operation. Return true to abort the current operation.
 		*/
 		virtual bool OnCheckBreak() = 0;
+
+		/*
+		Called When error, return true will retry
+		*/
+		virtual bool OnError(const SevenZip::TString& fileAbPath, unsigned __int64 errorCode, int retryTime) = 0;
 	};
 }

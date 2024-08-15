@@ -157,12 +157,23 @@ STDMETHODIMP ArchiveExtractCallback::GetStream( UInt32 index, ISequentialOutStre
 
 	TString absDir = FileSys::GetPath( m_absPath );
 	FileSys::CreateDirectoryTree( absDir );
-
+	int retrTitme = 0;
+retry:
 	CComPtr< IStream > fileStream = FileSys::OpenFileToWrite( m_absPath );
 	if ( fileStream == NULL )
 	{
+		DWORD err = GetLastError();
+		if (m_callback != nullptr)
+		{
+			if (m_callback->OnError(m_absPath, err, retrTitme))
+			{
+				retrTitme++;
+				goto retry;
+			}
+		}
+
 		m_absPath.clear();
-		return HRESULT_FROM_WIN32( GetLastError() );
+		return HRESULT_FROM_WIN32( err );
 	}
 
 	CComPtr< OutStreamWrapper > wrapperStream = new OutStreamWrapper( fileStream );
