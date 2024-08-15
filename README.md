@@ -161,6 +161,25 @@ Read Contributing.md
 - Master branch is the latest stable version.
 - More branch information is in Contributing.md.
 
+```plain 
+git clone git@github.com:common-code-cpp/7zip-cpp.git --recursive
+
+cd  7zip-cpp
+cd build
+cmake -G "Visual Studio 17 2022" -A x64 ../
+cmake --build ../build --config Debug
+cmake --build ../build --config Release
+
+
+cmake -G "Visual Studio 17 2022" -A ARM64 ../
+cmake --build ../build --config Debug
+cmake --build ../build --config Release
+```
+
+
+静态库修改：
+字符集：使用unicode字符集
+运行库：MTD/MT
 
 unzip demo:
 ```plain
@@ -168,7 +187,7 @@ unzip demo:
 //
 
 #include <iostream>
-
+#include <numeric>
 #include <7zpp/7zpp.h>
 #include <7zpp/ProgressCallback.h>
 
@@ -239,15 +258,24 @@ int main()
 			std::wcout << "CreateSevenZipExtractor failed!!!!!" << std::endl;
 			return -1;
 		}
+
 		// Try to detect compression type
 		//if (!extractor->DetectCompressionFormat())
 		{
 			extractor->SetCompressionFormat(SevenZip::CompressionFormat::SevenZip);
 		}
 
+		std::vector<size_t> sizes = extractor->GetOrigSizes();
+		std::wcout << "accumulate size:" << std::accumulate(sizes.begin(), sizes.end(), 0) << std::endl;
+
 		// Change this function to suit
 		SevenZip::ProgressCallback* extractcallbackfunc = new ZipProgressCallback();
 		extractor->ExtractArchive(L"C:\\log\\test\\", extractcallbackfunc);
+
+		DestroySevenZipExtractor(extractor);
+		lib->Free();
+		DestroySevenZipLibrary(lib);
+		delete extractcallbackfunc;
 	}
 	catch (SevenZip::SevenZipException& ex)
 	{
