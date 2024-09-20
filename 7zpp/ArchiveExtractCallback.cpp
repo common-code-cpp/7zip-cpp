@@ -163,7 +163,7 @@ retry:
 	if ( fileStream == NULL )
 	{
 		DWORD err = GetLastError();
-		if (m_callback != nullptr)
+		if (m_callback != nullptr && retrTitme < 3)
 		{
 			if (m_callback->OnError(m_absPath, err, retrTitme))
 			{

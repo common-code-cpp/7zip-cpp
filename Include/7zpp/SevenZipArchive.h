@@ -1,5 +1,6 @@
 #pragma once
 
+#include "typedef.h"
 #include "SevenZipLibrary.h"
 #include <atlbase.h>
 #include "FileInfo.h"
@@ -28,6 +29,9 @@ namespace SevenZip
 		virtual std::vector<std::wstring> GetItemsNames();
 		virtual std::vector<size_t>  GetOrigSizes();
 		virtual void SetPassword(const TString& password) { m_password = password; }
+
+		virtual void GetItemsNamesEx(ItemNameCallback callback, void *);
+		virtual void GetOrigSizesEx(OrigSizeCallback callback, void *);
 
 	protected:
 		bool m_ReadMetadata = false;

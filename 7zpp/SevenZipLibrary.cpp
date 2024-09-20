@@ -30,7 +30,6 @@ bool SevenZipLibrary::Load( const TString& libraryPath )
 	m_dll = LoadLibrary( libraryPath.c_str() );
 	if ( m_dll == NULL )
 	{
-		DWORD d = GetLastError();
 		return false;
 		//throw SevenZipException( GetWinErrMsg( _T( "LoadLibrary" ), GetLastError() ) );
 	}

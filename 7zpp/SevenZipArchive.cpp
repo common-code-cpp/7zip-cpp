@@ -73,6 +73,38 @@ namespace SevenZip
 		return m_origsizes;
 	}
 
+	void SevenZipArchive::GetItemsNamesEx(ItemNameCallback callback, void * userData)
+	{
+		if (!m_ReadMetadata)
+		{
+			m_ReadMetadata = ReadInArchiveMetadata();
+		}
+
+		if (callback)
+		{
+			for (int i = 0; i < m_itemnames.size(); i++)
+			{
+				callback(m_itemnames.at(i).c_str(), userData);
+			}
+		}
+	}
+
+	void SevenZipArchive::GetOrigSizesEx(OrigSizeCallback callback, void* userData)
+	{
+		if (!m_ReadMetadata)
+		{
+			m_ReadMetadata = ReadInArchiveMetadata();
+		}
+
+		if (callback)
+		{
+			for (int i = 0; i < m_origsizes.size(); i++)
+			{
+				callback(m_origsizes.at(i), userData);
+			}
+		}
+	}
+
 	// Sets up all the metadata for an archive file
 	bool SevenZipArchive::ReadInArchiveMetadata()
 	{

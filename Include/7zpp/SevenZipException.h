@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "typedef.h"
 #include <exception>
 #include "SevenString.h"
 
@@ -11,7 +11,7 @@ namespace SevenZip
 	TString GetWinErrMsg( const TString& contextMessage, DWORD lastError );
 	TString GetCOMErrMsg( const TString& contextMessage, HRESULT lastError );
 
-	class SevenZipException
+	class EXPORT_7ZPP_API SevenZipException
 	{
 	protected:
 

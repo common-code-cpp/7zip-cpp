@@ -1,11 +1,12 @@
 #pragma once
 
+#include "typedef.h"
 #include "SevenZipException.h"
 #include "CompressionFormat.h"
 
 namespace SevenZip
 {
-	class SevenZipLibrary
+	class EXPORT_7ZPP_API SevenZipLibrary
 	{
 	private:
 

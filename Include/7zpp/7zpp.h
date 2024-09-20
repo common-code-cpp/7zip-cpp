@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "typedef.h"
 #include "SevenZipCompressor.h"
 #include "SevenZipExtractor.h"
 #include "SevenZipLister.h"
@@ -8,16 +8,6 @@
 // Version of this library
 #define SEVENZIP_VERSION L"0.3.0.20180422"
 #define SEVENZIP_BRANCH L"master"
-
-#ifdef MSC_VER
-#ifdef EXPORT_7ZPP
-#define EXPORT_7ZPP_API __declspec(dllexport)
-#else
-#define EXPORT_7ZPP_API __declspec(dllimport)
-#endif
-#else
-#define EXPORT_7ZPP_API
-#endif
 
 #ifdef __cplusplus 
 extern "C"
