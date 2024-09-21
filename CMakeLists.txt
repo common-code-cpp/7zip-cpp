@@ -20,7 +20,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/${ARCH_PATH})
 
 file(GLOB 7ZPP_SOURCES  ${PROJECT_SOURCE_DIR}/7zpp/*.cpp )
 # 设置动态库
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 if(BUILD_SHARED_LIBS)
 	add_library(7zpp SHARED ${7ZPP_SOURCES})
 	target_compile_definitions(7zpp PRIVATE SHARED_LIBRARAY_7ZPP)
