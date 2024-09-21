@@ -1,13 +1,13 @@
 #pragma once
 
-
+#include "typedef.h"
 #include "SevenZipLibrary.h"
 #include "CompressionFormat.h"
 
 
 namespace SevenZip
 {
-	class ProgressCallback
+	class EXPORT_7ZPP_API ProgressCallback
 	{
 	public:
 

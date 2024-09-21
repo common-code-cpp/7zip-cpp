@@ -1,5 +1,6 @@
 #pragma once
 
+#include "typedef.h"
 #include "SevenZipLibrary.h"
 #include "SevenZipArchive.h"
 #include "CompressionFormat.h"
@@ -8,7 +9,7 @@
 
 namespace SevenZip
 {
-	class SevenZipLister : public SevenZipArchive
+	class EXPORT_7ZPP_API SevenZipLister : public SevenZipArchive
 	{
 	public:
 		TString m_archivePath;

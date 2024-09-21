@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "typedef.h"
 #include "SevenZipLibrary.h"
 #include "SevenZipArchive.h"
 #include "ProgressCallback.h"
@@ -8,7 +8,7 @@
 
 namespace SevenZip
 {
-	class SevenZipExtractor : public SevenZipArchive
+	class EXPORT_7ZPP_API SevenZipExtractor : public SevenZipArchive
 	{
 	public:
 

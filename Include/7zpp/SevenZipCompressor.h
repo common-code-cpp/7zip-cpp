@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "typedef.h"
 #include <vector>
 #include <atlbase.h>
 #include "SevenZipLibrary.h"
@@ -13,7 +13,7 @@
 
 namespace SevenZip
 {
-	class SevenZipCompressor : public SevenZipArchive
+	class EXPORT_7ZPP_API SevenZipCompressor : public SevenZipArchive
 	{
 	public:
 		// archive path - full path to creating archive without extension

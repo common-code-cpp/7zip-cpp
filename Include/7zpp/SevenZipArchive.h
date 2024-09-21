@@ -9,7 +9,7 @@
 
 namespace SevenZip
 {
-	class SevenZipArchive
+	class EXPORT_7ZPP_API SevenZipArchive
 	{
 	public:
 		SevenZipArchive(const SevenZipLibrary& library, const TString& archivePath);

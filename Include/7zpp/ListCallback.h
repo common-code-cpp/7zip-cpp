@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "typedef.h"
 #include "SevenZipLibrary.h"
 #include "CompressionFormat.h"
 
@@ -9,7 +9,7 @@ namespace SevenZip
 {
 	using namespace intl;
 
-	class ListCallback
+	class EXPORT_7ZPP_API ListCallback
 	{
 	public:
 		/*

@@ -149,15 +149,10 @@ int main()
 
 #endif
 
-	//try 
+	try 
 	{
-		SevenZip::SevenZipLibrary* lib = CreateSevenZipLibrary();
-		if (!lib) {
-			std::wcout << "loadCreateSevenZipLibrary failed!!!!!" << std::endl;
-			return -1;
-		}
-
-		if (!lib->Load(L"C:\\Program Files\\Lenovo\\Lenovo IQ\\7Zip\\7z.dll")) {
+		SevenZip::SevenZipLibrary lib;
+		if (!lib.Load(L"C:\\Program Files\\Lenovo\\Lenovo IQ\\7Zip\\7z.dll")) {
 			std::wcout << "load 7z.dll failed!!!!!" << std::endl;
 			return -1;
 		}
@@ -166,47 +161,40 @@ int main()
 
 		//SevenZip::TString file = L"D:\\projects\\demos\\Unzip\\SmartCache.7z";
 		SevenZip::TString file = L"C:\\Users\\qwerr\\Desktop\\bin103.bin.7z";
-		SevenZip::SevenZipExtractor* extractor = CreateSevenZipExtractor(*lib, file);
+		SevenZip::SevenZipExtractor extractor(lib, file);
 		std::wcout << file.c_str() << std::endl;
-		if (!extractor) {
-			std::wcout << "CreateSevenZipExtractor failed!!!!!" << std::endl;
-			return -1;
-		}
 
 		// Try to detect compression type
 		//if (!extractor->DetectCompressionFormat())
 		{
-			extractor->SetCompressionFormat(SevenZip::CompressionFormat::SevenZip);
+			extractor.SetCompressionFormat(SevenZip::CompressionFormat::SevenZip);
 		}
 
 		{
 			std::vector<SevenZip::TString> names;
-			extractor->GetItemsNamesEx(GetItemNameCallback, &names);
+			extractor.GetItemsNamesEx(GetItemNameCallback, &names);
 			for (int i = 0; i < names.size(); i++) {
 				std::wcout << "to remove file:" << names[i] << std::endl;
 			}
 		}
 
 		std::vector<size_t> sizes;
-		extractor->GetOrigSizesEx(GetOrigSizesCallback, &sizes);
+		extractor.GetOrigSizesEx(GetOrigSizesCallback, &sizes);
 		std::wcout << "accumulate size:" << std::accumulate(sizes.begin(), sizes.end(), 0) << std::endl;
 
 		// Change this function to suit
-		SevenZip::ProgressCallback* extractcallbackfunc = new ZipProgressCallback();
-		bool ret = extractor->ExtractArchive(L"D:\\projects\\thirdparty-source\\test\\", extractcallbackfunc);
+		ZipProgressCallback extractcallbackfunc;
+		bool ret = extractor.ExtractArchive(L"D:\\projects\\thirdparty-source\\test\\", &extractcallbackfunc);
 		if (!ret) {
 			std::cerr << "ExtractArchive failed**************" << std::endl;
 		}
 
-		DestroySevenZipExtractor(extractor);
-		lib->Free();
-		DestroySevenZipLibrary(lib);
-		delete extractcallbackfunc;
+		lib.Free();
 	}
-	/*catch (SevenZip::SevenZipException& ex)
+	catch (SevenZip::SevenZipException& ex)
 	{
 		std::wcout << "ex:" << ex.GetMessageW().c_str() << std::endl;
-	}*/
+	}
 
 	std::wcout << "Finished!\n";
 }
